@@ -66,7 +66,7 @@ class DataProcessor:
         Input : List[str]
         Output : Dict
 
-        This method should use the generator method assigned to seld.data_reader and return aggregate
+        This method should use the generator method assigned to self.data_reader and return aggregate
         of the column mentioned in the `column_name` variable
 
         For example if the `column_name` -> 'TotalPrice' and the file format is as below:
@@ -79,5 +79,18 @@ class DataProcessor:
         aggregate should be 105.58
         """
         ######################################## YOUR CODE HERE ##################################################
+        data_reader = (row for row in self.data_reader)
 
+        _ = next(data_reader)   # skip title row
+
+        col_agg = 0
+        for row in data_reader:
+            col_agg = col_agg + self.to_float(row[column_name])
+        
+        return(col_agg)
         ######################################## YOUR CODE HERE ##################################################
+
+if __name__ == "__main__":
+    dp = DataProcessor('/workspace/course-python-4-production/data/tst/2015.csv')
+    result = dp.aggregate('Quantity')
+    print(result)

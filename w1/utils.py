@@ -112,7 +112,10 @@ class DataReader:
         }
         """
     ######################################## YOUR CODE HERE ##################################################
-
+        for row in open(self._fp, 'r'):
+            values = row.strip('\n').split(self._sep)
+            result = {key: value for key, value in zip(self._col_names, values)}
+            yield result
     ######################################## YOUR CODE HERE ##################################################
 
     def get_file_path(self):
@@ -121,3 +124,12 @@ class DataReader:
     def get_column_names(self):
         return self._col_names
 
+if __name__ == '__main__':
+    col_names = ['StockCode','Description','UnitPrice','Quantity','TotalPrice','Country','InvoiceNo','Date']
+    dr = DataReader('/workspace/course-python-4-production/data/tst/2015.csv', ',', col_names)
+
+    dr_gen = (row for row in dr)
+
+    print(f"First: {next(dr_gen)}")
+    print(f"Second: {next(dr_gen)}")
+    print(f"Third: {next(dr_gen)}")
